@@ -1,0 +1,4 @@
+DOS:
+C:\Retrosheet\downloads\parsed\game>copy *.csv "c:\retrosheet\downloads\parsed\game_all.csv"
+C:\Retrosheet\downloads\parsed\event>copy *.csv "c:\retrosheet\downloads\parsed\event_all.csv"
+C:\Retrosheet\downloads\parsed\sub>copy *.csv "c:\retrosheet\downloads\parsed\sub_all.csv"
