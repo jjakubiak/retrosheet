@@ -22,7 +22,7 @@ entrypoints==0.2.3
 esptool==2.6
 et-xmlfile==1.0.1
 flake8==3.6.0
-Flask==0.12.3
+Flask==1.1.1
 httpie==1.0.2
 idna==2.7
 imagesize==1.1.0
@@ -34,10 +34,10 @@ isort==4.3.4
 itsdangerous==0.24
 jdcal==1.4.1
 jedi==0.13.1
-Jinja2==2.10
+Jinja2==2.10.1
 jsonschema==2.6.0
 jupyter==1.0.0
-jupyter-client==5.2.3
+jupyter-client==5.3.1
 jupyter-console==6.0.0
 jupyter-core==4.4.0
 keyring==15.1.0
@@ -52,7 +52,7 @@ more-itertools==4.3.0
 mysql-connector-python==8.0.16
 nbconvert==5.4.0
 nbformat==4.4.0
-notebook==5.7.0
+notebook==6.0.1
 numpy==1.16.0
 numpydoc==0.8.0
 openpyxl==2.6.2
@@ -90,7 +90,7 @@ pyzmq==17.1.2
 QtAwesome==0.5.1
 qtconsole==4.4.1
 QtPy==1.5.1
-requests==2.19.1
+requests==2.22.0
 rope==0.11.0
 scikit-learn==0.20.2
 scipy==1.2.0
@@ -114,6 +114,6 @@ urllib3==1.23
 virtualenv==16.4.3
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.14.1
+Werkzeug==0.15.5
 widgetsnbextension==3.4.2
 wrapt==1.10.11
