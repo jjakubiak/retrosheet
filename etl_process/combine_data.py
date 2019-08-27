@@ -10,16 +10,13 @@ to_path = "C:/Retrosheet/api_data/parsed/complete/"
 key_set = set()
 dict_group = defaultdict(list)
 
-### read indivudual files and add to a dictionary of lists of dataframes
-### create function to read files to dict
-
+### read individual files and add to a dictionary containing a list of dataframes for each key
 ### staging directory
 all_files = file_paths("C:/Retrosheet/api_data/parsed/intermediate/")
 if bool(all_files):
     for k, v in all_files.items():
         print("extract:", k)
         for file_nm in v:
-            # print(file_nm)
             key = k.rsplit("/")[-1]
             key_set.add(key)
 
@@ -36,19 +33,30 @@ if bool(all_files):
             shutil.move(from_path, to_path + key + "/" + file_nm)
 
 dict_df = defaultdict(list)
+dict_dup = defaultdict(list)
 
-### combine dataframes
+### combine list of data frames created above into single dataframe; outer join, adds single new row and any new columns
+### checks if the index is unique
 for k, v in dict_group.items():
     for index, df_row in enumerate(v):
+        df_row_index = df_row.index.values[0]
+        # print(df_row_index)
         if index == 0:
             dict_df[k] = df_row
         else:
             df = dict_df[k]
-            dict_df[k] = pd.concat([df, df_row], sort=False)
-# print(dict_df["boxscore"])
+            ### add new row to combined dataframe if the index is unique
+            try:
+                dict_df[k] = pd.concat([df, df_row], sort=False, verify_integrity=True)
+            except ValueError:
+                ### 1) store all duplicate index rows 2) delete old row from existing dataframe and 3) add new row to existing dataframe
+                df_obj = dict_df[k]
+                dict_dup[k].append(df_obj.loc[df_row_index])
+                dict_df[k].drop([df_row_index], inplace=True)
+                dict_df[k] = pd.concat([df, df_row], sort=False, verify_integrity=True)
 
 
-### read existing dataframes from directory
+### read existing dataframes from directory into dictionary of dataframes
 final_set = set()
 dict_final = defaultdict(list)
 
@@ -57,7 +65,7 @@ final_files = file_paths(save_path)
 if bool(final_files):
     for k, v in final_files.items():
         for file_nm in v:
-            # print(file_nm)
+            print(file_nm)
             key = file_nm.rsplit(".")[0]
             final_set.add(key)
 
@@ -70,15 +78,30 @@ if bool(final_files):
             else:
                 dict_final[key].append(df_final)
 
-### rename  variable
-key_list = set([k for k in dict_df] + [k for k in dict_final])
 
-for item in key_list:
-    file_path = save_path + item + ".txt"
+### verify integrity manually
+dict_df_index = {key: val.index.values for key, val in dict_df.items()}
+dict_final_index = {key: val[0].index.values for key, val in dict_final.items()}
+
+### create list of distinct key from previous dictionary and new dictionary
+list_key = set([k for k in dict_df_index] + [k for k in dict_final_index])
+
+### find duplicate keys and remove from previous dataframes
+dup_dict = defaultdict(list)
+
+if bool(dict_final_index):
+    for key in list_key:
+        dup_index = list(set(dict_df_index[key]).intersection(dict_final_index[key]))
+        df_obj = dict_final[key][0]
+        dup_dict[key].append(df_obj.loc[dup_index])
+        dict_final[key][0].drop(dup_index, inplace=True)
+
+for key in list_key:
+    file_path = save_path + key + ".txt"
     if not bool(dict_final):
-        df_combined = dict_df[item]
+        df_combined = dict_df[key]
     else:
-        df_combined = pd.concat([dict_final[item][0], dict_df[item]], sort=False)
+        df_combined = pd.concat([dict_final[key][0], dict_df[key]], sort=False, verify_integrity=True)
     df_combined.to_csv(file_path, mode="w", header=True)
 
 
@@ -88,4 +111,3 @@ for item in key_list:
 # writer = pd.ExcelWriter(save_to)
 # dict_final.to_excel(writer,'Sheet1')
 # writer.save()
-

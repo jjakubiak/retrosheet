@@ -1,6 +1,6 @@
 
-### write loop
 
+### add loop with week star and week end dates
 
 if __name__ == "__main__":
     exec(open("api_request.py").read())     # api request for raw json

@@ -3,11 +3,13 @@
 from datetime import date, timedelta
 import requests
 import json
+import os
 from os import walk
 from os.path import join
 import pandas as pd
-from pandas import ExcelWriter
+# from pandas import ExcelWriter
 from collections import defaultdict
+import shutil
 
 
 def api_request(url_path):
@@ -98,9 +100,20 @@ def df_output(dict_obj, var_nm, game_id, save_path):
 # def read_pickle(data, path, file_name):
 #     return pd.read_pickle(path + file_name + ".pkl")
 
-### write pandas dataframe to excel
-def df_to_excel(file_nm, path, dataframe):
-    save_to = path + "_" + file_nm + ".xlsx"
-    writer = ExcelWriter(save_to)
-    dataframe.to_excel(writer, file_nm)
-    writer.save()
+# ### write pandas dataframe to excel
+# def df_to_excel(file_nm, path, dataframe):
+#     save_to = path + "_" + file_nm + ".xlsx"
+#     writer = ExcelWriter(save_to)
+#     dataframe.to_excel(writer, file_nm)
+#     writer.save()
+
+
+def rev_slash(string):
+    return string.replace(os.sep, '/')
+
+
+def remove_files(path):
+    for parent, dirnames, filenames in os.walk(path):
+        for fn in filenames:
+            if fn.lower().endswith('.txt'):
+                os.remove(os.path.join(parent, fn))

@@ -4,8 +4,8 @@ from datetime import date, datetime, timedelta
 from operations import api_request, json_dump
 
 # create list of dates, updated to use function
-beg_dt = date(2018,5,6)
-end_dt = date(2018,5,12)
+beg_dt = date(2018,4,1)
+end_dt = date(2018,4,7)
 
 date_list = [beg_dt + timedelta(days=x) for x in range((end_dt-beg_dt).days + 1)]
 

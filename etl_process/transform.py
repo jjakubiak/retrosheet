@@ -1,4 +1,3 @@
-
 ### etl proccess, rename folder
 from operations import json_load, file_names, map_keys, check_int, get_item, df_output, save_dataframe_csv
 import pandas as pd
@@ -198,7 +197,7 @@ for index, file_nm in enumerate(file_names(path_nm)):
 
     save_dataframe_csv(df_data_gm, save_path + "gameData/", "gameData_" + str(game_id))
     save_dataframe_csv(df_all_pl, save_path + "players/", "players_" + str(game_id))
-    save_dataframe_csv(df_data_bx, save_path + "boxScore/", "boxScore" + str(game_id))
+    save_dataframe_csv(df_data_bx, save_path + "boxScore/", "boxScore_" + str(game_id))
 
     ### move files from staging to complete directory
     from_path = path_nm + "game_" + str(game_id) + ".txt"
