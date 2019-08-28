@@ -119,6 +119,8 @@ for index, file_nm in enumerate(file_names(path_nm)):
                 s_pevnt = pd.Series(v, index=[index_pevnt], name=key_pevnt)
                 dict_pevnt[key_pevnt] = dict_pevnt[key_pevnt].append(s_pevnt)
 
+        
+
         ### runners
         runnr_01, runnr_02, runnr_03 = "runners", "movement", "details"
         if k[1] in set([runnr_01]) and k[3] in set([runnr_02, runnr_03]):
@@ -142,6 +144,7 @@ for index, file_nm in enumerate(file_names(path_nm)):
             if key_crdt not in distinct_series_crdt:
                 distinct_series_crdt.add(key_crdt)
                 dict_crdt[key_crdt] = pd.Series(v, index=[index_crdt], name=key_crdt)
+                dict_crdt[key_crdt].index.name = "gameID-allPlays-runners-credits"
             else:
                 s_crdt = pd.Series(v, index=[index_crdt], name=key_crdt)
                 dict_crdt[key_crdt] = dict_crdt[key_crdt].append(s_crdt)
@@ -188,12 +191,12 @@ for index, file_nm in enumerate(file_names(path_nm)):
                 dict_main[key_main] = dict_main[key_main].append(s_main)
 
     ### write dataframes to disk
-    df_output(dict_pevnt, pevnt, game_id, save_path)
-    df_output(dict_runnr, runnr_01, game_id, save_path)
-    df_output(dict_crdt, crdt, game_id, save_path)
-    df_output(dict_pindx, pindx, game_id, save_path)
-    df_output(dict_rindx, rindx, game_id, save_path)
-    df_output(dict_main, main, game_id, save_path)
+    df_output(dict_pevnt, pevnt, game_id, save_path, "gameID-allPlays-playEvents")
+    df_output(dict_runnr, runnr_01, game_id, save_path, "gameID-allPlays-runners")
+    df_output(dict_crdt, crdt, game_id, save_path, "gameID-allPlays-runners-credits")
+    df_output(dict_pindx, pindx, game_id, save_path, "gameID-allPlays-pitchIndex")
+    df_output(dict_rindx, rindx, game_id, save_path, "gameID-allPlays-runnerIndex")
+    df_output(dict_main, main, game_id, save_path, "gameID-allPlays")
 
     save_dataframe_csv(df_data_gm, save_path + "gameData/", "gameData_" + str(game_id))
     save_dataframe_csv(df_all_pl, save_path + "players/", "players_" + str(game_id))

@@ -90,10 +90,11 @@ def save_dataframe_csv(dataframe, path, file_name):
 #     dataframe.to_pickle(path + file_name + ".pkl")
 
 
-def df_output(dict_obj, var_nm, game_id, save_path):
+def df_output(dict_obj, var_nm, game_id, save_path, index_nm):
     col_nm = [v.name for k, v in dict_obj.items()]
     series_lst = [v for k, v in dict_obj.items()]
     df = pd.concat(series_lst, axis=1, keys=col_nm, sort=False, copy=False)
+    df.index.name = index_nm
 
     save_dataframe_csv(df, save_path + var_nm + "/", var_nm + "_" + str(game_id))
 
