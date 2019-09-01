@@ -1,9 +1,12 @@
 
+import pandas as pd
+import numpy as np
 
 ### helper functions for calculated fields
 
-### label data
+
 def result(row, col_away, col_home):
+    """ label data based on home team win """
     if row[col_away] > row[col_home]:
         val = False
     elif row[col_away] < row[col_home]:
@@ -106,3 +109,12 @@ def fip_raw(row, team, path, val=0):
         return fip
     except ZeroDivisionError:
         return None
+
+
+### general operations
+def cast(df, cast_col, data_type):
+    return df[cast_col].astype(data_type)
+
+
+def replace_with_null(df, null_str):
+    return df.replace(null_str, np.nan, inplace=True)

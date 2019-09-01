@@ -10,7 +10,7 @@ to_path = "C:/Retrosheet/api_data/parsed/complete/"
 key_set = set()
 dict_group = defaultdict(list)
 
-### read individual files and add to a dictionary containing a list of dataframes for each key
+### read individual files and add to a dictionary containing a list of dataframes for each key, key is the file prefix
 ### staging directory
 all_files = file_paths("C:/Retrosheet/api_data/parsed/intermediate/")
 if bool(all_files):
@@ -21,7 +21,8 @@ if bool(all_files):
             key_set.add(key)
 
             from_path = k + "/" + file_nm
-            df_indv = pd.read_csv(from_path, index_col=[0])
+            # df_indv = pd.read_csv(from_path, index_col=[0])
+            df_indv = pd.read_pickle(from_path)
 
             if key not in key_set:
                 key_set.add(key)
@@ -30,7 +31,7 @@ if bool(all_files):
                 dict_group[key].append(df_indv)
 
             ### move files from staging to complete directory
-            shutil.move(from_path, to_path + key + "/" + file_nm)
+            # shutil.move(from_path, to_path + key + "/" + file_nm)
 
 dict_df = defaultdict(list)
 dict_dup = defaultdict(list)
@@ -40,7 +41,6 @@ dict_dup = defaultdict(list)
 for k, v in dict_group.items():
     for index, df_row in enumerate(v):
         df_row_index = df_row.index.values[0]
-        # print(df_row_index)
         if index == 0:
             dict_df[k] = df_row
         else:
@@ -56,7 +56,7 @@ for k, v in dict_group.items():
                 dict_df[k] = pd.concat([df, df_row], sort=False, verify_integrity=True)
 
 
-### read existing dataframes from directory into dictionary of dataframes
+### read existing final dataframes from directory into dictionary of dataframes
 final_set = set()
 dict_final = defaultdict(list)
 
@@ -65,12 +65,11 @@ final_files = file_paths(save_path)
 if bool(final_files):
     for k, v in final_files.items():
         for file_nm in v:
-            print(file_nm)
             key = file_nm.rsplit(".")[0]
             final_set.add(key)
 
             from_path = k + "/" + file_nm
-            df_final = pd.read_csv(from_path, index_col=[0])
+            df_final = pd.read_pickle(from_path)
 
             if key not in final_set:
                 final_set.add(key)
@@ -97,12 +96,13 @@ if bool(dict_final_index):
         dict_final[key][0].drop(dup_index, inplace=True)
 
 for key in list_key:
-    file_path = save_path + key + ".txt"
+    file_path = save_path + key + ".pkl"
     if not bool(dict_final):
         df_combined = dict_df[key]
     else:
         df_combined = pd.concat([dict_final[key][0], dict_df[key]], sort=False, verify_integrity=True)
-    df_combined.to_csv(file_path, mode="w", header=True)
+    df_combined.to_pickle(file_path)
+    df_combined.to_csv("C:/Retrosheet/api_data/final_txt/"+ key + ".txt")
 
 
 ### write pandas dataframe to excel

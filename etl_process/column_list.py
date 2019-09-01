@@ -52,3 +52,36 @@ del_col_set = ("away.note"
 , "home.teamStats.pitching.balks"
 
 )
+
+list_cast_col = [
+"away.teamStats.batting.avg"
+, "away.teamStats.batting.obp"
+, "away.teamStats.batting.slg"
+, "away.teamStats.batting.ops"
+, "away.teamStats.batting.stolenBasePercentage"
+, "away.teamStats.batting.atBatsPerHomeRun"
+
+, "away.teamStats.pitching.stolenBasePercentage"
+, "away.teamStats.pitching.era"
+, "away.teamStats.pitching.inningsPitched"
+, "away.teamStats.pitching.whip"
+, "away.teamStats.pitching.runsScoredPer9"
+, "away.teamStats.pitching.homeRunsPer9"
+
+, "away.teamStats.fielding.stolenBasePercentage"
+
+, "home.teamStats.batting.avg"
+, "home.teamStats.batting.obp"
+, "home.teamStats.batting.slg"
+, "home.teamStats.batting.ops"
+, "home.teamStats.batting.stolenBasePercentage"
+, "home.teamStats.batting.atBatsPerHomeRun"
+
+, "home.teamStats.pitching.stolenBasePercentage"
+, "home.teamStats.pitching.era"
+, "home.teamStats.pitching.inningsPitched"
+, "home.teamStats.pitching.whip"
+, "home.teamStats.pitching.runsScoredPer9"
+, "home.teamStats.pitching.homeRunsPer9"
+
+, "home.teamStats.fielding.stolenBasePercentage"]

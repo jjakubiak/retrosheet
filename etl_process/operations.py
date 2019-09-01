@@ -7,7 +7,7 @@ import os
 from os import walk
 from os.path import join
 import pandas as pd
-# from pandas import ExcelWriter
+from pandas import ExcelWriter
 from collections import defaultdict
 import shutil
 
@@ -86,27 +86,35 @@ def save_dataframe_csv(dataframe, path, file_name):
     dataframe.to_csv(path + file_name + ".txt")
 
 
-# def save_dataframe_pkl(dataframe, path, file_name):
-#     dataframe.to_pickle(path + file_name + ".pkl")
+def save_dataframe_pkl(dataframe, path, file_name):
+    """ writing to pickle preserves the indicies and data types """
+    dataframe.to_pickle(path + file_name + ".pkl")
 
 
-def df_output(dict_obj, var_nm, game_id, save_path, index_nm):
+def df_output(dict_obj, var_nm, game_id, save_path):
     col_nm = [v.name for k, v in dict_obj.items()]
     series_lst = [v for k, v in dict_obj.items()]
     df = pd.concat(series_lst, axis=1, keys=col_nm, sort=False, copy=False)
-    df.index.name = index_nm
 
     save_dataframe_csv(df, save_path + var_nm + "/", var_nm + "_" + str(game_id))
+
+
+def df_output_pkl(dict_obj, var_nm, game_id, save_path):
+    col_nm = [v.name for k, v in dict_obj.items()]
+    series_lst = [v for k, v in dict_obj.items()]
+    df = pd.concat(series_lst, axis=1, keys=col_nm, sort=False, copy=False)
+
+    save_dataframe_pkl(df, save_path + var_nm + "/", var_nm + "_" + str(game_id))
 
 # def read_pickle(data, path, file_name):
 #     return pd.read_pickle(path + file_name + ".pkl")
 
-# ### write pandas dataframe to excel
-# def df_to_excel(file_nm, path, dataframe):
-#     save_to = path + "_" + file_nm + ".xlsx"
-#     writer = ExcelWriter(save_to)
-#     dataframe.to_excel(writer, file_nm)
-#     writer.save()
+### write pandas dataframe to excel
+def df_to_excel(file_nm, path, dataframe):
+    save_to = path + "_" + file_nm + ".xlsx"
+    writer = ExcelWriter(save_to)
+    dataframe.to_excel(writer, file_nm)
+    writer.save()
 
 
 def rev_slash(string):
@@ -116,5 +124,6 @@ def rev_slash(string):
 def remove_files(path):
     for parent, dirnames, filenames in os.walk(path):
         for fn in filenames:
-            if fn.lower().endswith('.txt'):
+            if fn.lower().endswith('.txt') or fn.lower().endswith('.pkl'):
                 os.remove(os.path.join(parent, fn))
+            

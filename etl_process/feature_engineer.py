@@ -20,7 +20,7 @@ for file_nm in file_names(final_path):
     print(file_nm)
     key = file_nm.rsplit(".")[0]
     file_path = final_path + "/" + file_nm
-    dict_final[key] = pd.read_csv(file_path, index_col=[0])
+    dict_final[key] = pd.read_pickle(file_path)
 
 ### feature engineer
 ### gameData
@@ -40,7 +40,6 @@ df_gameData[date_prefix + ".day"] = df_gameData[dt].dt.day
 df_boxscore = dict_final["boxscore"]
 
 ### boxscore, add year
-# df_boxscore = pd.merge(df_boxscore, df_gameData[["gameID", "datetime.year"]], on="gameID", how="left")
 df_boxscore = df_boxscore.join(df_gameData[["datetime.year"]], how="left")
 # print(df_boxscore)
 
@@ -99,4 +98,4 @@ df_boxscore_final.drop([col for col in df_boxscore_final.columns if col in del_c
 # df_boxscore_final.replace("-.--", np.nan, inplace=True)
 
 ### write pandas dataframe to excel
-# df_to_excel("boxscore_engineer", "c:/retrosheet/api_structure", df_boxscore_final)
+df_to_excel("boxscore_engineer", "c:/retrosheet/api_structure", df_boxscore_final)
