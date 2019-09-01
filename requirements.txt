@@ -23,7 +23,7 @@ esptool==2.6
 et-xmlfile==1.0.1
 flake8==3.6.0
 Flask==1.1.1
-httpie==1.0.2
+httpie==1.0.3
 idna==2.7
 imagesize==1.1.0
 ipykernel==5.0.0
@@ -73,7 +73,7 @@ py==1.7.0
 pyaes==1.6.1
 pycodestyle==2.4.0
 pyflakes==2.0.0
-Pygments==2.2.0
+Pygments==2.4.2
 pylint==2.2.2
 pymongo==3.7.2
 pyodbc==4.0.26
@@ -117,3 +117,4 @@ webencodings==0.5.1
 Werkzeug==0.15.5
 widgetsnbextension==3.4.2
 wrapt==1.10.11
+XlsxWriter==1.2.0
