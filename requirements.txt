@@ -69,7 +69,7 @@ prometheus-client==0.4.0
 prompt-toolkit==2.0.5
 psutil==5.4.7
 psycopg2-binary==2.7.4
-py==1.7.0
+py==1.10.0
 pyaes==1.6.1
 pycodestyle==2.4.0
 pyflakes==2.0.0
