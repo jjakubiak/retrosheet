@@ -23,7 +23,7 @@ esptool==2.6
 et-xmlfile==1.0.1
 flake8==3.6.0
 Flask==1.1.1
-httpie==1.0.3
+httpie==3.1.0
 idna==2.7
 imagesize==1.1.0
 ipykernel==5.0.0
